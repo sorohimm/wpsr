@@ -27,7 +27,11 @@ void formatLine(std::string &input);
 void split(const std::string& str, char sep);
 void split(std::string& input, std::vector<std::string> container);
 int deleteSingLet(std::string& input, int count);
-//void addWordsToMap(const std::string& str, std::vector<std::string> output,  char sep);
+void deleteSpaces(std::string& input);
+void star(std::string& input);
+void split(const std::string& str, std::vector<std::string> output,  char sep);
+void substtr(const std::string &str, std::vector<std::string> output);
+void splitt(const std::string& str, std::vector<std::string>& ans, char sep);
 
 void stringScan(std::string inputLine, std::vector<std::string> container);
 
