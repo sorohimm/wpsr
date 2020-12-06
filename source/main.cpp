@@ -9,26 +9,26 @@ int main() {
     //     CLEANING
     //     ==================================================
     std::string line;
-    std::ifstream inputFile("/Users/sorohimm/CLionProjects/untitled2/file.txt");
-    if (!inputFile.is_open()) {
-        std::cout << "ERROR!!! CAN NOT OPEN INPUT FILE" << std::endl;
-    }
-    std::ofstream outputFile("clearText.txt");
-    if (!outputFile.is_open()) {
-        std::cout << "ERROR!!! CAN NOT OPEN OUTPUT FILE" << std::endl;
-    }
-    while (getline(inputFile, line)) {
-        formatLine(line);
-        outputFile << line << std::endl;
-    }
-    outputFile.close();
-    line.clear();
+//    std::ifstream inputFile("/Users/sorohimm/CLionProjects/wpsr/wiki.txt");
+//    if (!inputFile.is_open()) {
+//        std::cout << "ERROR!!! CAN NOT OPEN INPUT FILE" << std::endl;
+//    }
+//    std::ofstream outputFile("clearText.txt");
+//    if (!outputFile.is_open()) {
+//        std::cout << "ERROR!!! CAN NOT OPEN OUTPUT FILE" << std::endl;
+//    }
+//    while (getline(inputFile, line)) {
+//        formatLine(line);
+//        outputFile << line << std::endl;
+//    }
+//    outputFile.close();
+//    line.clear();
 
     //    //  =================================================
     //    // READ
     //    //  =================================================
 
-    std::ifstream ClearText("/Users/sorohimm/CLionProjects/untitled2/cmake-build-debug/clearText.txt");
+    std::ifstream ClearText("/Users/sorohimm/CLionProjects/wpsr/cmake-build-debug/clearText.txt");
     if (!ClearText.is_open()) {
         std::cout << "ERROR!!! CAN NOT OPEN SCAN FILE" << std::endl;
     }
@@ -43,31 +43,32 @@ int main() {
     for (size_t i = 0; i < words.size(); ++i) {
         mapa.emplace(words[i], null);
     }
-
+    ClearText.clear();
+    ClearText.seekg(0); // back to begin
     std::vector<std::string> tmp;
     while (getline(ClearText, line)) {
         splitt(line, tmp, ' ');
         for (auto i = tmp.begin(); i != tmp.end(); i++) {
-            if (mapa[*i].find(*(i + 1)) == mapa[*i].end()) {
                 ++mapa[*i][*(i + 1)];
-            }
-            mapa[*i].emplace(*i, 1);
+                mapa[*i].emplace(*(i + 1), 1);
         }
+        tmp.clear();
     }
 
     //  =================================================
-    //  CUP OF CUM TO CUM FILE
+    //  TO STAT FILE
     //  =================================================
 
-    std::ofstream statTxt("statistic.txt");
-    if (!statTxt.is_open()) {
+    std::ofstream statistic("statistic.txt");
+    if (!statistic.is_open()) {
         std::cout << "ERROR!!! CAN NOT OPEN OUTPUT FILE" << std::endl;
     }
     for (auto i = mapa.begin(); i != mapa.end(); ++i) {
-        statTxt << "# " << i->first << " #" << std::endl;
+        statistic << "#  " << i->first << "   #" << std::endl;
         for (auto j = i->second.begin(); j != i->second.end(); ++j) {
-            statTxt << "}" << j->first << "*" << j->second << "^^^^";
+            statistic << "} " << j->first << " * " << j->second << " ^ " << std::endl;
         }
     }
+    statistic.close();
     return 0;
 }

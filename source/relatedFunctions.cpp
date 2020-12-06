@@ -69,6 +69,7 @@ int deleteSingLet(std::string &input, int count) {
     }
     return count;
 }
+
 void deleteSpaces(std::string &input) {
     //    auto i = input.begin();
     //    do {
@@ -116,7 +117,7 @@ void substtr(const std::string &str, std::vector<std::string> output) {
     }
 }
 
-void splitt(const std::string &str, std::vector<std::string> &ans, char sep) {
+void splitt(std::string &str, std::vector<std::string> &ans, char sep) {
 
     std::string help;
     if (str.empty()) {
@@ -136,3 +137,25 @@ void splitt(const std::string &str, std::vector<std::string> &ans, char sep) {
         ans.push_back(help);
     }
 }
+
+//void sort(vault M) {
+//
+//    // Declare vector of pairs
+//    std::vector <std::pair<std::string, int>> A;
+//
+//    // Copy key-value pair from Map
+//    // to vector of pairs
+//    for (auto &it : M) {
+//        A.push_back(it);
+//    }
+//
+//    // Sort using comparator function
+//    sort(A.begin(), A.end(), cmp);
+//
+//    // Print the sorted value
+//    for (auto &it : A) {
+//
+//        cout << it.first << ' '
+//             << it.second << endl;
+//    }
+//}
