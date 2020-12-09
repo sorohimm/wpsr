@@ -5,7 +5,7 @@
 #include <header.h>
 
 int main() {
-    std::ifstream inputFile("/Users/sorohimm/CLionProjects/untitled2/wiki.txt");
+    std::ifstream inputFile("../untitled2/text.txt");
     if (!inputFile.is_open()) { return 0; }
 
     std::ofstream outputFile("clearText.txt");
@@ -14,7 +14,7 @@ int main() {
     FormatFile(inputFile, outputFile);// delete all excess symbols
     outputFile.close();
 
-    std::ifstream ClearText("/Users/sorohimm/CLionProjects/untitled2/cmake-build-debug/clearText.txt");
+    std::ifstream ClearText("../untitled2/cmake-build-debug/clearText.txt");
     if (!ClearText.is_open()) { return 0; }
 
     std::vector<std::string> WordsVector;
