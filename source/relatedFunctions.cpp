@@ -3,129 +3,80 @@
 //
 #include <header.h>
 
-//void split(const std::string& str, char sep) {
-//    std::vector<std::string> output;
-//    if (!str.empty()) {
-//        size_t prev_sep = 0;
-//        while (str.find(sep, prev_sep) != std::string::npos &&
-//               prev_sep < str.size()) {
-//            size_t next_sep = str.find(sep, prev_sep);
-//            if (next_sep != prev_sep) {
-//                output.push_back(str.substr(prev_sep, next_sep - prev_sep));
-//            }
-//            prev_sep = ++next_sep;
-//        }
-//        if (str.substr(prev_sep).size() > 0) {
-//            output.push_back(str.substr(prev_sep));
-//        }
-//    }
-//}
-void split(const std::string &str, std::vector<std::string> output, char sep) {
-    if (!str.empty()) {
-        size_t prev_sep = 0;
-        while (str.find(sep, prev_sep) != std::string::npos &&
-               prev_sep < str.size()) {
-            size_t next_sep = str.find(sep, prev_sep);
-            if (next_sep != prev_sep) {
-                output.push_back(str.substr(prev_sep, next_sep - prev_sep));
+void MakeStatic(vault &Statistics, std::ifstream &ClearText) {
+    std::vector<std::string> tmp;
+    std::string line;
+    while (getline(ClearText, line)) {
+        split(line, tmp, ' ');
+        if (tmp.size() > 1) {
+            for (auto i = tmp.begin(); i != tmp.end() - 1; i++) {
+                if (Statistics[*i].find(*(i + 1)) != Statistics[*i].end()) {
+                    ++Statistics[*i][*(i + 1)];
+                } else {
+                    Statistics[*i].emplace(*(i + 1), 1);
+                }
             }
-            prev_sep = ++next_sep;
         }
-        if (str.substr(prev_sep).size() > 0) {
-            output.push_back(str.substr(prev_sep));
+    }
+    //    tmp.clear();
+}
+
+bool CheckPair(const std::pair<std::string, int> &first,
+               const std::pair<std::string, int> &second) {
+    return (first.second > second.second);
+}
+void MapOutput(const vault &input, std::ofstream &file) {
+    std::vector<std::pair<std::string, int>> tmpOut;
+    for (const auto &key : input) {
+        file << "^^^^ " << key.first << " ^^^^^" << std::endl;
+        for (const auto &val : key.second) {
+            tmpOut.emplace_back(make_pair(val.first, val.second));
         }
+        std::sort(tmpOut.begin(), tmpOut.end(), CheckPair);
+        for (const auto &value : tmpOut) {
+            file << " # " << value.first << " - " << value.second;
+        }
+        file << std::endl;
+        tmpOut.clear();
     }
 }
 
-bool check(const char &input) {
-    if (!std::isalpha(input) && input != ' ') {
-        return true;
+void FileToVector(std::ifstream &InputFile, std::vector<std::string> &outputVector) {
+    std::string line;
+    while (getline(InputFile, line)) {
+        split(line, outputVector, ' ');
     }
-    return false;
 }
+
 
 void formatLine(std::string &input) {
     for (auto i = input.begin(); i != input.end(); i++) {
-
         if (!std::isalpha(*i) && *i != ' ' &&
             !(*i == '\'' && std::isalpha(*(i - 1)) && std::isalpha(*(i - 1)))) {
             *i = ' ';
-        }
-    }
-}
-
-//void split(std::string &input, std::vector<std::string> container) {
-//    boost::split(container, input, boost::algorithm::is_any_of(" "),
-//                 boost::algorithm::token_compress_on);
-//}
-
-
-int deleteSingLet(std::string &input, int count) {
-    for (auto i = input.begin(); i != input.end(); ++i) {
-        if (std::isalpha(*i) && *i + 1 == ' ' && *i - 1 == ' ') {
-            input.erase(i, i + 1);
-            ++count;
-        }
-    }
-    return count;
-}
-
-void deleteSpaces(std::string &input) {
-    //    auto i = input.begin();
-    //    do {
-    //        if (*i == ' ' && !std::isalpha(*(i + 1))) {
-    //            input.erase(i);
-    //            ++i;
-    //        }
-    //        ++i;
-    //    } while (i != input.end());
-
-    for (auto i = input.begin(); i < input.end(); ++i) {
-        if (*i == '*' && (!std::isalpha(*(i + 1)) || i + 1 != input.end())) {
-            input.erase(i);
-        }
-    }
-}
-
-void star(std::string &input) {
-    for (auto i = input.begin(); i < input.end(); ++i) {
-        if (*i == ' ') {
-            *i = '*';
-        }
-    }
-}
-
-
-void substtr(const std::string &str, std::vector<std::string> output) {
-    if (str.empty()) {
-        return;
-    }
-    size_t i = 0;
-    size_t beg = 0;
-    size_t end = 0;
-    while (i != str.size()) {
-        if (str[i] != ' ') {
-            beg = i;
-            while (std::isalpha(i + 1) || str[i] != '\n') {
-                ++i;
-            }
-            end = i;
-            output.push_back(str.substr(beg, end));
         } else {
-            ++i;
+            *i = tolower(*i);
         }
     }
 }
 
-void splitt(std::string &str, std::vector<std::string> &ans, char sep) {
+void FormatFile(std::ifstream &inputFile, std::ofstream &outputFile) {
+    std::string line;
+    while (getline(inputFile, line)) {
+        formatLine(line);
+        outputFile << line << std::endl;
+    }
+}
+
+void split(const std::string &str, std::vector<std::string> &ans, char sep) {
 
     std::string help;
     if (str.empty()) {
         return;
     }
-    for (size_t i = 0; i < str.size(); i++) {
-        if (str[i] != sep) {
-            help += (str[i]);
+    for (auto smb : str) {
+        if (smb != sep) {
+            help += (smb);
         } else {
             if (!help.empty()) {
                 ans.push_back(help);
@@ -137,25 +88,3 @@ void splitt(std::string &str, std::vector<std::string> &ans, char sep) {
         ans.push_back(help);
     }
 }
-
-//void sort(vault M) {
-//
-//    // Declare vector of pairs
-//    std::vector <std::pair<std::string, int>> A;
-//
-//    // Copy key-value pair from Map
-//    // to vector of pairs
-//    for (auto &it : M) {
-//        A.push_back(it);
-//    }
-//
-//    // Sort using comparator function
-//    sort(A.begin(), A.end(), cmp);
-//
-//    // Print the sorted value
-//    for (auto &it : A) {
-//
-//        cout << it.first << ' '
-//             << it.second << endl;
-//    }
-//}

@@ -8,35 +8,23 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <string>
-#include <map>
-#include <vector>
 #include <iterator>
-#include <boost/algorithm/string/join.hpp>
-#include <boost/algorithm/string/split.hpp>
-#include <boost/algorithm/string/classification.hpp>
-#include <boost/range/adaptor/transformed.hpp>
-
-
-
-
+#include <map>
+#include <string>
+#include <vector>
+//#include <boost/algorithm/string/join.hpp>
+//#include <boost/algorithm/string/split.hpp>
+//#include <boost/algorithm/string/classification.hpp>
+//#include <boost/range/adaptor/transformed.hpp>
 
 using vault = std::map<std::string, std::map<std::string, int>>;
 
 void formatLine(std::string &input);
-void split(const std::string& str, char sep);
-void split(std::string& input, std::vector<std::string> container);
-int deleteSingLet(std::string& input, int count);
-void deleteSpaces(std::string& input);
-void star(std::string& input);
-void split(const std::string& str, std::vector<std::string> output,  char sep);
-void substtr(const std::string &str, std::vector<std::string> output);
-void splitt(const std::string& str, std::vector<std::string>& ans, char sep);
-
+void split(const std::string &str, std::vector<std::string> &ans, char sep);
+void MapOutput(const vault &input, std::ofstream &file);
+void FileToVector(std::ifstream &InputFile, std::vector<std::string> &outputVector);
+void FormatFile(std::ifstream &inputFile, std::ofstream &outputFile);
+void MakeStatic(vault &Statistics, std::ifstream &ClearText);
 void stringScan(std::string inputLine, std::vector<std::string> container);
 
-
-
-
-
-#endif //UNTITLED2_HEADER_H
+#endif//UNTITLED2_HEADER_H
